@@ -14,15 +14,57 @@ emailButton.onclick = () => {
     }
 }
 
-
-
 let num = 0;
+let num1 = 0;
+
+const parentBlock = document.querySelector(".parent_block")
 const move = document.querySelector(".child_block");
+const offWidth = parentBlock.offsetWidth - move.offsetWidth
+
 const countFunction = () => {
-    num++
+    if (num <= offWidth && num1 === 0) num++
+    else if (num >= offWidth && num1 < offWidth) num1++
+    else if (num >= 1 && num1 === offWidth) num--
+    else if (num < offWidth && num1 >= 1) num1--
+
     move.style.left = num + "px";
-    if (num <= 447) {
-        requestAnimationFrame(countFunction)
-    }
+    move.style.top = num1 + "px";
+
+    requestAnimationFrame(countFunction)
 }
 countFunction()
+
+const time = document.querySelector("#seconds");
+const start = document.querySelector("#start");
+const reset = document.querySelector("#reset");
+const stop = document.querySelector("#stop");
+
+let timer = null;
+let seconds = 0;
+
+function updateTime() {
+    time.innerText = seconds;
+}
+
+function startButton() {
+    if (timer !== null) return;
+    timer = setInterval(() => {
+        seconds++;
+        updateTime();
+    }, 1000);
+}
+
+function stopButton() {
+    clearInterval(timer);
+}
+
+function resetButton() {
+    clearInterval(timer);
+    seconds = 0;
+    updateTime();
+}
+
+start.addEventListener("click" , startButton);
+reset.addEventListener("click" , resetButton);
+stop.addEventListener("click" , stopButton);
+

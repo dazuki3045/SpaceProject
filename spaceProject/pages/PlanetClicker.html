@@ -2,9 +2,83 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Кликер</title>
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/1258/1258323.png">
+    <link rel="stylesheet" href="../css/core.css">
+    <link rel="stylesheet" href="../css/clicker.css">
 </head>
 <body>
-
+<div class="header">
+    <div class="container">
+        <div class="head">
+            <div class="head_item">
+                <img src="https://png.pngtree.com/png-vector/20221106/ourmid/pngtree-golden-star-best-vector-clipart-hd-ai-and-eps-file-png-image_6418221.png" alt="coin">
+                <h5>Количество:</h5>
+                <span id="countClick">0</span>
+            </div>
+            <div class="head_item">
+                <img src="https://cdn-icons-png.flaticon.com/512/7162/7162383.png" alt="click">
+                <h5>Сила Клика:</h5>
+                <span id="countPower">1</span>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="main">
+    <div class="container flex">
+        <div class="main_inner">
+            <h5>Прокачка множителя</h5>
+            <div class="main_item">
+                <span>Стоимость:500</span>
+                <button type="button" id="upgradeX2">2</button>
+            </div>
+            <div class="main_item">
+                <span>Стоимость:1000</span>
+                <button type="button" id="upgradeX3">3</button>
+            </div>
+            <div class="main_item">
+                <span>Стоимость:2000</span>
+                <button type="button" id="upgradeX4">4</button>
+            </div>
+            <div class="main_item">
+                <span>Стоимость:3000</span>
+                <button type="button" id="upgradeX5">5</button>
+            </div>
+            <div class="main_item">
+                <span>Стоимость:5000</span>
+                <button type="button" id="upgradeX10">10</button>
+            </div>
+        </div>
+        <div class="center">
+            <div class="center_item">
+                <button type="button" id="btn"></button>
+            </div>
+        </div>
+        <div class="main_inner">
+            <h5>Прокачка силы</h5>
+            <div class="main_item">
+                <span>Стоимость:5</span>
+                <button type="button" id="upgradePlus2">2</button>
+            </div>
+            <div class="main_item">
+                <span>Стоимость:10</span>
+                <button type="button" id="upgradePlus5">5</button>
+            </div>
+            <div class="main_item">
+                <span>Стоимость:20</span>
+                <button type="button" id="upgradePlus10">10</button>
+            </div>
+            <div class="main_item">
+                <span>Стоимость:30</span>
+                <button type="button" id="upgradePlus20">20</button>
+            </div>
+            <div class="main_item">
+                <span>Стоимость:50</span>
+                <button type="button" id="upgradePlus100">100</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../js/clicker.js"></script>
 </body>
 </html>
