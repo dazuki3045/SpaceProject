@@ -43,11 +43,11 @@ let timer = null;
 let seconds = 0;
 
 function updateTime() {
-    time.innerText = seconds;
+    time.textContent = seconds;
 }
 
 function startButton() {
-    if (timer !== null) return;
+    clearInterval(timer);
     timer = setInterval(() => {
         seconds++;
         updateTime();
@@ -56,6 +56,7 @@ function startButton() {
 
 function stopButton() {
     clearInterval(timer);
+    updateTime();
 }
 
 function resetButton() {
