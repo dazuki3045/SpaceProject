@@ -17,13 +17,17 @@ const closeModal = () => {
     document.body.style.overflow = ""
 }
 
+
+// таймер для открытия модельного окна чтобы не мешало
 setTimeout(() => openModal(), 10000);
 
 
+
+// Удаляем обработчик события после первого срабатывания
 function Scrolling() {
     if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight) {
         openModal();
-        window.removeEventListener("scroll", Scrolling); // Удаляем обработчик события после первого срабатывания
+        window.removeEventListener("scroll", Scrolling);
     }
 }
 
