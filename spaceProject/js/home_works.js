@@ -69,3 +69,45 @@ start.addEventListener("click" , startButton);
 reset.addEventListener("click" , resetButton);
 stop.addEventListener("click" , stopButton);
 
+
+const requestCharacters = new XMLHttpRequest()
+
+requestCharacters.open("GET","../data/characters.json")
+requestCharacters.setRequestHeader("Content-type", "application/json")
+requestCharacters.send()
+requestCharacters.onload = () => {
+    const characters = JSON.parse(requestCharacters.responseText);
+    const charactersBlock = document.querySelector(".characters-list");
+
+    characters.forEach(character => {
+        const block = document.createElement("div");
+        block.setAttribute("class", "character-item");
+
+        const img = document.createElement("img");
+        img.setAttribute("src", character.imageUrl);
+
+        const name = document.createElement("h2");
+        name.textContent = character.name;
+
+        const age = document.createElement("h3");
+        age.textContent = character.age;
+
+        block.appendChild(img);
+        block.appendChild(name);
+        block.appendChild(age);
+
+        charactersBlock.appendChild(block);
+    });
+};
+
+
+const request = new XMLHttpRequest()
+request.open("GET","../data/any.json")
+request.setRequestHeader("Content-type", "application/json")
+request.send()
+request.onload = () => {
+    console.log(JSON.parse(request.response))
+}
+
+
+

@@ -19,19 +19,19 @@ const closeModal = () => {
 
 
 // таймер для открытия модельного окна чтобы не мешало
-setTimeout(() => openModal(), 10000);
+// setTimeout(() => openModal(), 10000);
 
 
 
 // Удаляем обработчик события после первого срабатывания
-function Scrolling() {
-    if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight) {
-        openModal();
-        window.removeEventListener("scroll", Scrolling);
-    }
-}
+// function Scrolling() {
+//     if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight) {
+//         openModal();
+//         window.removeEventListener("scroll", Scrolling);
+//     }
+// }
 
-window.addEventListener("scroll", Scrolling);
+// window.addEventListener("scroll", Scrolling);
 
 openModalButton.onclick = openModal
 closeModalButton.onclick = closeModal
