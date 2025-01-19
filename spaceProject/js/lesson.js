@@ -63,3 +63,38 @@ tabsParent.onclick = (event) => {
         })
     }
 }
+
+
+const somInput = document.querySelector("#som")
+const usdInput = document.querySelector("#usd")
+const eurInput = document.querySelector("#eur")
+
+
+const converter = (element, targetElement, targetElement1) => {
+    element.oninput = () => {
+        const request = new XMLHttpRequest()
+        request.open("GET","../data/converter.json")
+        request.setRequestHeader("Content-type", "application/json")
+        request.send()
+        request.onload = () => {
+            const data = JSON.parse(request.response)
+            if (element.id === "som") {
+                targetElement.value = (element.value / data.som).toFixed(2);
+                targetElement1.value = (element.value / (data.som / data.eur)).toFixed(2);
+            }
+            if (element.id === "usd") {
+                targetElement.value = (element.value * data.som).toFixed(2);
+                targetElement1.value = (element.value * data.eur).toFixed(2);
+            }
+            if (element.id === "eur") {
+                targetElement.value = (element.value * (data.som / data.eur)).toFixed(2);
+                targetElement1.value = (element.value * (1 / data.eur)).toFixed(2);
+            }
+        }
+    }
+}
+
+converter(somInput, usdInput, eurInput)
+converter(usdInput, somInput, eurInput)
+converter(eurInput, somInput, usdInput)
+
