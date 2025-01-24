@@ -65,19 +65,15 @@ tabsParent.onclick = (event) => {
 }
 
 
-const somInput = document.querySelector("#som")
-const usdInput = document.querySelector("#usd")
-const eurInput = document.querySelector("#eur")
-
+const somInput = document.querySelector("#som");
+const usdInput = document.querySelector("#usd");
+const eurInput = document.querySelector("#eur");
 
 const converter = (element, targetElement, targetElement1) => {
-    element.oninput = () => {
-        const request = new XMLHttpRequest()
-        request.open("GET","../data/converter.json")
-        request.setRequestHeader("Content-type", "application/json")
-        request.send()
-        request.onload = () => {
-            const data = JSON.parse(request.response)
+    element.oninput = async () => {
+        try {
+            const response = await fetch("../data/converter.json");
+            const data = await response.json();
             if (element.id === "som") {
                 targetElement.value = (element.value / data.som).toFixed(2);
                 targetElement1.value = (element.value / (data.som / data.eur)).toFixed(2);
@@ -90,33 +86,37 @@ const converter = (element, targetElement, targetElement1) => {
                 targetElement.value = (element.value * (data.som / data.eur)).toFixed(2);
                 targetElement1.value = (element.value * (1 / data.eur)).toFixed(2);
             }
+        } catch (error) {
+            console.error("Ошибка загрузки данных:", error);
         }
-    }
-}
+    };
+};
 
-converter(somInput, usdInput, eurInput)
-converter(usdInput, somInput, eurInput)
-converter(eurInput, somInput, usdInput)
+converter(somInput, usdInput, eurInput);
+converter(usdInput, somInput, eurInput);
+converter(eurInput, somInput, usdInput);
 
 //CARD SWITCHER
 
-const btnNext = document.querySelector("#btn-next")
-const btnPrev = document.querySelector("#btn-prev")
-const cardBlock = document.querySelector(".card")
+const btnNext = document.querySelector("#btn-next");
+const btnPrev = document.querySelector("#btn-prev");
+const cardBlock = document.querySelector(".card");
 
-let todoId = 1
+let todoId = 1;
 const max = 200;
 
-function update(id) {
-    fetch(`https://jsonplaceholder.typicode.com/todos/${id}`)
-        .then(response => response.json())
-        .then(data => {
-            cardBlock.innerHTML = `
-                <p>${data.title}</p>
-                <p>${data.completed}</p>
-                <span>${data.id}</span>
-            `;
-        });
+async function update(id) {
+    try {
+        const response = await fetch(`https://jsonplaceholder.typicode.com/todos/${id}`);
+        const data = await response.json();
+        cardBlock.innerHTML = `
+      <p>${data.title}</p>
+      <p>${data.completed}</p>
+      <span>${data.id}</span>
+    `;
+    } catch (error) {
+        console.error("Ошибка", error);
+    }
 }
 
 btnNext.onclick = function() {
@@ -139,8 +139,42 @@ btnPrev.onclick = function() {
 
 update(todoId);
 
-fetch('https://jsonplaceholder.typicode.com/posts')
-    .then(response => response.json())
-    .then(data => {
+async function fetchPosts() {
+    try {
+        const response = await fetch('https://jsonplaceholder.typicode.com/posts');
+        const data = await response.json();
         console.log(data);
-    })
+    } catch (error) {
+        console.error("Ошибка загруки данных", error);
+    }
+}
+
+fetchPosts();
+
+// weather
+
+
+const searchButton = document.querySelector("#search")
+const searchInput = document.querySelector(".cityName")
+const temp = document.querySelector(".temp")
+const city = document.querySelector(".city")
+
+const BASE_URL = 'http://api.openweathermap.org/data/2.5/weather'
+const API_KEY = 'e417df62e04d3b1b111abeab19cea714'
+
+searchButton.onclick = () => {
+    if (searchInput.value === ''){
+        city.innerHTML = 'Введите название города'
+        temp.innerHTML = ''
+        city.style.color = 'red'
+        return
+    }
+    fetch(`${BASE_URL}?q=${searchInput.value}&appid=${API_KEY}&units=metric&lang=ru`)
+        .then(response => response.json())
+        .then(data => {
+            city.innerHTML = data.name || 'Город не найден...'
+            temp.innerHTML = data.main?.temp ? Math.round(data.main?.temp) + '°С' : ''
+            city.style.color = 'white'
+        })
+    searchInput.value = ''
+}

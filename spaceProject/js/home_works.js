@@ -70,44 +70,49 @@ reset.addEventListener("click" , resetButton);
 stop.addEventListener("click" , stopButton);
 
 
-const requestCharacters = new XMLHttpRequest()
+async function fetchCharacters() {
+    try {
+        const response = await fetch("../data/characters.json");
+        const characters = await response.json();
+        const charactersBlock = document.querySelector(".characters-list");
 
-requestCharacters.open("GET","../data/characters.json")
-requestCharacters.setRequestHeader("Content-type", "application/json")
-requestCharacters.send()
-requestCharacters.onload = () => {
-    const characters = JSON.parse(requestCharacters.responseText);
-    const charactersBlock = document.querySelector(".characters-list");
+        characters.forEach(character => {
+            const block = document.createElement("div");
+            block.setAttribute("class", "character-item");
 
-    characters.forEach(character => {
-        const block = document.createElement("div");
-        block.setAttribute("class", "character-item");
+            const img = document.createElement("img");
+            img.setAttribute("src", character.imageUrl);
 
-        const img = document.createElement("img");
-        img.setAttribute("src", character.imageUrl);
+            const name = document.createElement("h2");
+            name.textContent = character.name;
 
-        const name = document.createElement("h2");
-        name.textContent = character.name;
+            const age = document.createElement("h3");
+            age.textContent = character.age;
 
-        const age = document.createElement("h3");
-        age.textContent = character.age;
+            block.appendChild(img);
+            block.appendChild(name);
+            block.appendChild(age);
 
-        block.appendChild(img);
-        block.appendChild(name);
-        block.appendChild(age);
-
-        charactersBlock.appendChild(block);
-    });
-};
-
-
-const request = new XMLHttpRequest()
-request.open("GET","../data/any.json")
-request.setRequestHeader("Content-type", "application/json")
-request.send()
-request.onload = () => {
-    console.log(JSON.parse(request.response))
+            charactersBlock.appendChild(block);
+        });
+    } catch (error) {
+        console.error("Ошибка загрузки персонажей:", error);
+    }
 }
 
+fetchCharacters();
+
+
+async function fetchRequest() {
+    try {
+        const response = await fetch("../data/any.json");
+        const data = await response.json();
+        console.log(data);
+    } catch (error) {
+        console.error("Ошибка:", error);
+    }
+}
+
+fetchRequest();
 
 
